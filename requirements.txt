@@ -1,0 +1,11 @@
+# FastAPI framework and related dependencies
+fastapi
+uvicorn
+requests
+
+# OpenAI API for NLP chatbot functionalities
+openai
+
+matplotlib
+
+
