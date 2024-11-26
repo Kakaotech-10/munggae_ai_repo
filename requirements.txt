@@ -8,4 +8,6 @@ openai
 
 matplotlib
 
+KRWordRank
 
+textrank
