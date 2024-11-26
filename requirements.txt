@@ -6,7 +6,3 @@ python-dotenv
 
 # OpenAI API for NLP chatbot functionalities
 openai
-
-matplotlib
-
-
