@@ -10,7 +10,7 @@ response = requests.get(url)
 stopwords = set(response.text.splitlines())
 
 # 2. Mecab 초기화
-mecab = Mecab(dicpath='/opt/homebrew/lib/mecab/dic/mecab-ko-dic')
+mecab = Mecab(dicpath='/usr/lib/mecab/dic/mecab-ko-dic')
 
 # 3. 텍스트 전처리 함수
 def preprocess_texts(texts, stopwords):

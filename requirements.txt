@@ -5,7 +5,9 @@ requests
 python-dotenv
 
 # OpenAI API for NLP chatbot functionalities
-openai
+openai==0.28
+
+konlpy
 
 matplotlib
 
