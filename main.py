@@ -72,11 +72,6 @@ async def extract_comment_keywords(request: CommentRequest):
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-    
-# uvicorn 명령어 예시
-# uvicorn main:app --reload
-# /opt/homebrew/bin/python3 -m uvicorn main:app --reload -> lucy환경실행
-
 
 class PostContent(BaseModel):
     content: str
