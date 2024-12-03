@@ -35,7 +35,7 @@ pipeline {
             agent { label 'dind-agent' }
             steps {
                 script {
-                    unstash 'munggae_ai'
+                    unstash 'munggae_ai_repo'
                     withCredentials([usernamePassword(credentialsId: DOCKER_CREDENTIALS_ID, usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                         def imageTag = "${env.BUILD_NUMBER}"
                         //sh 'ls -lh model/koBERT_model_v1.01/model.safetensors'
