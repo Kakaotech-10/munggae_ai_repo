@@ -85,7 +85,12 @@ async def reply(post_content: PostContent):
     response = generate_response(post_content.content)
     return {"response": response}
 
-
+@app.get("/healthcheck")
+async def healthcheck():
+    """
+    단순 헬스 체크를 위한 엔드포인트
+    """
+    return {"status": "ok"}
 # uvicorn 명령어 예시
 # uvicorn main:app --reload
 # /opt/homebrew/bin/python3 -m uvicorn main:app --reload -> lucy환경실행
