@@ -6,7 +6,7 @@ import os
 load_dotenv()
 
 # 환경 변수에서 API 키 가져오기
-api_key = os.getenv("OPENAI_API_KEY")
+api_key = os.getenv("OPENAI_API_KEY", "").strip()
 if not api_key:
     raise ValueError("OPENAI_API_KEY가 .env 파일에 정의되어 있지 않습니다.")
 
