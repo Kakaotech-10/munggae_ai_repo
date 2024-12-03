@@ -7,6 +7,8 @@ python-dotenv
 # OpenAI API for NLP chatbot functionalities
 openai==0.28
 
+konlpy
+
 matplotlib
 
 KRWordRank
