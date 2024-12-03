@@ -64,7 +64,7 @@ pipeline {
                         ls -la
                         # Navigate to Backend directory if it exists
                         if [ -d "chatkey" ]; then
-                          cd 
+                          cd chatkey
                         else
                           echo "chatkey directory not found. Listing current directory contents."
                         fi
