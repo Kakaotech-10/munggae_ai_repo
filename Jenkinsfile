@@ -13,18 +13,13 @@ pipeline {
     stages {
         
         // 모델 사용 여부 확인 필요
-        // stage('Checkout and Download model') {
-        //     steps {
-        //         checkout([$class: 'GitSCM', branches: [[name: '*/main']], 
-        //                   extensions: [[$class: 'CleanBeforeCheckout']], 
-        //                   userRemoteConfigs: [[url: 'https://github.com/Kakaotech-10/munggae_ai_repo.git']]])
-        //         echo "Downloading Model from S3..."
-        //         sh """
-        //             aws s3 cp s3://munggae-ai-kobert/ model/ --recursive
-        //         """
-        //         sh 'ls -lh model/koBERT_model_v1.01/model.safetensors'
-        //     }
-        // }
+        stage('Checkout and Download model') {
+             steps {
+                checkout([$class: 'GitSCM', branches: [[name: '*/main']], 
+                          extensions: [[$class: 'CleanBeforeCheckout']], 
+                          userRemoteConfigs: [[url: 'https://github.com/Kakaotech-10/munggae_ai_repo.git']]])
+            }
+        }
         
         stage('Set Environment Variable') {
             steps {
@@ -68,15 +63,15 @@ pipeline {
                         echo "Current directory contents:"
                         ls -la
                         # Navigate to Backend directory if it exists
-                        if [ -d "AI" ]; then
-                          cd AI
+                        if [ -d "chatkey" ]; then
+                          cd 
                         else
-                          echo "AI directory not found. Listing current directory contents."
+                          echo "chatkey directory not found. Listing current directory contents."
                         fi
                         echo "Current directory after navigation:"
                         ls -la
                         # Update image tag in FastAPI-munggae.yaml with the new build number
-                        sed -i "s|image: ella00/munggae-ai-repo:.*|image: ella00/munggae-ai-repo:${env.BUILD_NUMBER}|" FastAPI-munggae.yaml
+                        sed -i "s|image: ella00/munggae-ai-repo:.*|image: ella00/munggae-ai-repo:${env.BUILD_NUMBER}|" chatkey.yaml
                         # Commit and push the changes
                         git add .
                         git commit -m "Update image tag to ${env.BUILD_NUMBER} for ArgoCD"
