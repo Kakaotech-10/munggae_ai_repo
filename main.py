@@ -6,6 +6,7 @@ from src.keyword_extraction import extract_keywords, stopwords
 from pydantic import BaseModel
 import os
 from src.bot import generate_response
+from src.bot import code_review_bot
 
 # FastAPI 인스턴스 생성
 app = FastAPI()
@@ -83,6 +84,14 @@ async def reply(post_content: PostContent):
         raise HTTPException(status_code=400, detail="No content provided")
 
     response = generate_response(post_content.content)
+    return {"response": response}
+
+@app.post("/api/codereview/v1")
+async def reply(post_content: PostContent):
+    if not post_content.content:
+        raise HTTPException(status_code=400, detail="No content provided")
+
+    response = code_review_bot(post_content.content)
     return {"response": response}
 
 @app.get("/healthcheck")
