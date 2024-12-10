@@ -16,14 +16,16 @@ mecab = Mecab(dicpath='/usr/lib/mecab/dic/mecab-ko-dic')
 def preprocess_texts(texts, stopwords):
     all_nouns = []
     for text in texts:
-        # 텍스트 정규화
+        print(f"원본 텍스트: {text}")  # 원본 텍스트 확인
         normalized_text = normalize(text, english=True, number=True)
-        # 명사 추출
+        print(f"정규화된 텍스트: {normalized_text}")  # 정규화 결과 확인
         nouns = mecab.nouns(normalized_text)
-        # 불용어 제거
+        print(f"추출된 명사: {nouns}")  # 명사 추출 결과 확인
         filtered_nouns = [noun for noun in nouns if noun not in stopwords]
+        print(f"불용어 제거 후 명사: {filtered_nouns}")  # 불용어 필터링 결과 확인
         all_nouns.extend(filtered_nouns)
     return all_nouns
+
 
 # 4. 키워드 추출 함수
 def extract_keywords(texts, stopwords):
