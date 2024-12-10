@@ -30,24 +30,42 @@ def extract_keywords(texts, stopwords):
     # 전처리 실행
     nouns = preprocess_texts(texts, stopwords)
     
+    # 명사 리스트가 비어 있는지 확인
+    if not nouns:
+        print("추출된 명사가 없습니다. 입력 텍스트를 확인하세요.")
+        return {
+            "wordrank_keywords": [],
+            "frequency_keywords": []
+        }
+        
     # KRWordRank 설정
     min_count = 1  # 최소 등장 횟수
     max_length = 10  # 키워드 최대 길이
     beta = 0.85  # PageRank의 decay factor
     max_iter = 10  # PageRank 반복 횟수
     
-    # KRWordRank로 키워드 추출
-    wordrank = KRWordRank(min_count=min_count, max_length=max_length, verbose=False)
-    keywords, rank, graph = wordrank.extract([' '.join(nouns)], beta, max_iter)
-    
+   # KRWordRank로 키워드 추출
+    try:
+        wordrank = KRWordRank(min_count=min_count, max_length=max_length, verbose=False)
+        keywords, rank, graph = wordrank.extract([' '.join(nouns)], beta, max_iter)
+        
+    except ValueError as e:
+        print(f"KRWordRank에서 오류 발생: {e}")
+        return {
+            "wordrank_keywords": [],
+            "frequency_keywords": []
+        }
+        
     # 키워드 정렬
     sorted_keywords = sorted(keywords.items(), key=lambda x: x[1], reverse=True)
     
     # 빈도 기반 키워드 추출
     keyword_counts = Counter(nouns)
+    frequency_keywords = [word for word, count in keyword_counts.most_common(5)]
+
     
     return {
-        "wordrank_keywords": sorted_keywords[:10],  # 상위 10개
-        "frequency_keywords": keyword_counts.most_common(10)  # 상위 10개
+        "wordrank_keywords": sorted_keywords[:5],  # 상위 5개
+        "frequency_keywords": keyword_counts  # 상위 5개
     }
 
