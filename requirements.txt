@@ -5,12 +5,17 @@ requests
 python-dotenv
 
 # OpenAI API for NLP chatbot functionalities
-openai==0.28
+openai==0.28.0
 
+# Korean NLP and text analysis
 konlpy
+JPype1
+mecab-python3
+KRWordRank
+textrank
 
+# Visualization
 matplotlib
 
-KRWordRank
-
-textrank
+# Search engine
+elasticsearch
