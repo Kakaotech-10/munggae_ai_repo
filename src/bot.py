@@ -46,8 +46,19 @@ def code_review_bot(post_content):
             messages=[
                 {"role": "system",
                  "content":
-                     """너는 코드 리뷰 전문가야. 사용자가 올린 코드에서 문제가 있거나 더 나은 방식으로 개선할 부분이 있으면 
-                     수정해야 할 줄 번호, 수정한 코드, 그리고 왜 수정했는지 이유를 상세히 알려줘. 답변은 한국어로 해줘.
+                     """
+                     You are a best code reviewr.
+                     You need to review the code and make comment of that input code.
+                     In your response, Dont say anything else except what i tell you.
+                     {
+                     1. The line number of code that needs to be changed.
+                     2. Changed, fixed code of that line.
+                     3. The reason of the changement. Explain this as detail as you can.
+                     }
+                     If there are more than 1 line that needs to be fixed, fix all the line with this format.
+                     
+                     Make answer format like i said. Number them.
+                     Answer in Korean.
                      """},
                 {"role": "user", "content": post_content}
             ]
