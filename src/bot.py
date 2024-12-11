@@ -32,3 +32,41 @@ def generate_response(post_content):
     except Exception as e:
         print(f"Error generating response: {e}")
         return "답변을 생성하는 중 오류가 발생했습니다. 나중에 다시 시도해 주세요."
+
+
+
+
+def code_review_bot(post_content):
+    """
+    게시글에 포함된 코드를 분석하여 개선할 부분을 알려주는 챗봇 함수.
+    """
+    try:
+        response = openai.ChatCompletion.create(
+            model="gpt-4",
+            messages=[
+                {"role": "system",
+                 "content":
+                     """
+                     You are a best code reviewr.
+                     You need to review the code and make comment of that input code.
+                     In your response, Dont say anything else except what i tell you.
+                     {
+                     1. The line number of code that needs to be changed.
+                     2. Changed, fixed code of that line.
+                     3. The reason of the changement. Explain this as detail as you can.
+                     }
+                     If there are more than 1 line that needs to be fixed, fix all the line with this format.
+                     
+                     Make answer format like i said. Number them.
+                     Answer in Korean.
+                     """},
+                {"role": "user", "content": post_content}
+            ]
+        )
+        # GPT 모델의 응답 가져오기
+        return response.choices[0].message['content']
+
+    except Exception as e:
+        print(f"Error generating response: {e}")
+        return "코드 리뷰를 생성하는 중 오류가 발생했습니다. 나중에 다시 시도해 주세요."
+
