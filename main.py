@@ -5,8 +5,7 @@ from pydantic import BaseModel, Field
 from src.keyword_extraction import extract_keywords, stopwords
 from pydantic import BaseModel
 import os
-from src.bot import generate_response
-from src.bot import code_review_bot
+from src.bot import generate_response, code_review_bot
 
 # FastAPI 인스턴스 생성
 app = FastAPI()
