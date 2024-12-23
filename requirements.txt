@@ -9,13 +9,9 @@ openai==0.28.0
 
 # Korean NLP and text analysis
 konlpy
-JPype1
 mecab-python3
 KRWordRank
-textrank
 
-# Visualization
-matplotlib
-
-# Search engine
-elasticsearch
+# Optional: Ensure numpy and scipy are compatible
+numpy>=1.19.5
+scipy>=1.5.0
