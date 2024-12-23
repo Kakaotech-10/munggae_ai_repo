@@ -1,19 +1,29 @@
-import requests
+import os
 from krwordrank.word import KRWordRank
 from krwordrank.hangle import normalize
 from konlpy.tag import Mecab
 from collections import Counter
 
+current_dir = os.path.dirname(os.path.abspath(__file__))
+stopwords_path = os.path.join(current_dir, 'stopwords.txt')
+
 # 1. 불용어 리스트 가져오기
-url = 'https://gist.githubusercontent.com/spikeekips/40d99e1ddc41b06412a6b913d9c9b5b8/raw/3ec2b98210903bd4c8f5b8481e0a8fd0de5e8fc3/stopwords-ko.txt'
-response = requests.get(url)
-stopwords = set(response.text.splitlines())
+try:
+    with open(stopwords_path, 'r', encoding='utf-8') as file:
+        stopwords = set(file.read().splitlines())
+    print("불용어 리스트 불러오기 성공")
+except FileNotFoundError:
+    print(f"파일을 찾을 수 없습니다: {stopwords_path}")
+except Exception as e:
+    print(f"오류 발생: {e}")
 
 # 2. Mecab 초기화
 mecab = Mecab(dicpath='/usr/lib/mecab/dic/mecab-ko-dic')
+#lucy환경에서 실행
+#mecab = Mecab(dicpath='/opt/homebrew/lib/mecab/dic/mecab-ko-dic')
 
 # 3. 텍스트 전처리 함수
-def preprocess_texts(texts, stopwords):
+def preprocess_texts(texts, stopwords, min_lenght = 2):
     all_nouns = []
     for text in texts:
         print(f"원본 텍스트: {text}")  # 원본 텍스트 확인
@@ -21,16 +31,16 @@ def preprocess_texts(texts, stopwords):
         print(f"정규화된 텍스트: {normalized_text}")  # 정규화 결과 확인
         nouns = mecab.nouns(normalized_text)
         print(f"추출된 명사: {nouns}")  # 명사 추출 결과 확인
-        filtered_nouns = [noun for noun in nouns if noun not in stopwords]
-        print(f"불용어 제거 후 명사: {filtered_nouns}")  # 불용어 필터링 결과 확인
+        filtered_nouns = [noun for noun in nouns if len(noun) >= min_lenght and noun not in stopwords]
+        print(f"불용어 및 최소 길이({min_lenght}) 필터링 후 명사: {filtered_nouns}")  # 불용어 필터링 결과 확인
         all_nouns.extend(filtered_nouns)
     return all_nouns
 
 
 # 4. 키워드 추출 함수
-def extract_keywords(texts, stopwords):
+def extract_keywords(texts, stopwords, min_lenght = 2):
     # 전처리 실행
-    nouns = preprocess_texts(texts, stopwords)
+    nouns = preprocess_texts(texts, stopwords, min_lenght = min_lenght)
     
     # 명사 리스트가 비어 있는지 확인
     if not nouns:
